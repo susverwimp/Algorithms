@@ -4,7 +4,10 @@ public class InsertionSort {
 	
 	public static void insertionSort(Comparable[] array){
 		int length = array.length;
+		//improvement, start with int i = 1, if i = 0, the there will never be any exchanges
+		//for(int i = 1; i < length - 1; i++){
 		for(int i = 0; i < length - 1; i++){
+			
 			for(int j = i; j > 0; j--){
 				if(less(array[j], array[j-1]))
 					exchange(array, j, j-1);
