@@ -19,7 +19,11 @@ public class MergeSort {
 		// improvement: only merge when last element of the left is less greater
 		// than first of the right
 		if (!less(array[mid], array[mid + 1]))
-			merge(array, aux, lo, mid, hi);
+			merge(array, aux, lo, mid, hi); // improvement: merge(aux, array,
+											// lo, mid, hi); then instead of
+											// array[k] = aux[j++] we use aux[k]
+											// = array[j++];
+											// this way we eliminate the copy of the array to the auxiliary array
 	}
 
 	public static void merge(Comparable[] array, Comparable[] aux, int lo,
@@ -30,7 +34,8 @@ public class MergeSort {
 		int i = lo; // merge
 		int j = mid + 1;
 		for (int k = lo; k <= hi; k++) {
-			if (i > mid) //optimization, just break the for loop because we copied the array to the auxiliary array
+			if (i > mid) // optimization, just break the for loop because we
+							// copied the array to the auxiliary array
 				array[k] = aux[j++];
 			else if (j > hi)
 				array[k] = aux[i++];
