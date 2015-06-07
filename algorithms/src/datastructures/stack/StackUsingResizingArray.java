@@ -1,7 +1,9 @@
 package datastructures.stack;
 
+import java.util.Iterator;
+
 //use this when you want a better memory efficient datastructure with constant amortized time for each operation
-public class StackUsingResizingArray<E> {
+public class StackUsingResizingArray<E> implements Iterable<E> {
 
 	private E[] array;
 	private int index = 0;
@@ -24,7 +26,8 @@ public class StackUsingResizingArray<E> {
 	public E pop() {
 		E item = array[--index];
 		array[index] = null;
-		if (index > 0 && index == array.length / 4) // when array is a quarter filled, resize it to half
+		if (index > 0 && index == array.length / 4) // when array is a quarter
+													// filled, resize it to half
 			resize(array.length / 2);
 		return item;
 	}
@@ -36,17 +39,39 @@ public class StackUsingResizingArray<E> {
 		}
 		array = copy;
 	}
-	
-	public static void main(String[] args){
-		StackUsingResizingArray<Integer> stack = new StackUsingResizingArray<>(1);
-		System.out.println(stack.isEmpty()); //true
+
+	@Override
+	public Iterator<E> iterator() {
+		return new ReverseArrayIterator();
+	}
+
+	private class ReverseArrayIterator implements Iterator<E> {
+
+		private int i = index;
+
+		@Override
+		public boolean hasNext() {
+			return i>0;
+		}
+
+		@Override
+		public E next() {
+			return array[--i];
+		}
+	}
+
+	public static void main(String[] args) {
+		StackUsingResizingArray<Integer> stack = new StackUsingResizingArray<>(
+				1);
+		System.out.println(stack.isEmpty()); // true
 		stack.push(2);
 		stack.push(3);
-		System.out.println(stack.isEmpty()); //false
-		int i = stack.pop();
-		System.out.println(i); //3
-		i = stack.pop();
-		System.out.println(i); //2
-		System.out.println(stack.isEmpty()); //true
+		System.out.println(stack.isEmpty()); // false
+		for(int i : stack){ //iterates over the stack and print 3 and then 2
+			System.out.println(i);
+		}
+		System.out.println(stack.pop()); // 3
+		System.out.println(stack.pop()); // 2
+		System.out.println(stack.isEmpty()); // true
 	}
 }
